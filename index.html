@@ -47,31 +47,49 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const normalQs = [
-        { text: "When I have free time, I usually:", labels: ["Help or care for others","Achieve something meaningful","Plan or organize logically","Do what feels right"] },
-        { text: "When working with others, I prefer to:", labels: ["Support and encourage them","Lead and take charge","Think things through","Include everyone"] },
-        { text: "When facing a challenge, I tend to:", labels: ["Seek harmony","Act quickly","Analyze in detail","Find common ground"] },
-        { text: "I am most satisfied when I:", labels: ["Am helpful and supportive","Accomplish difficult goals","Solve complex issues","Am part of a team"] },
-        { text: "In a disagreement, I usually:", labels: ["Understand feelings","Push for what's right","Reflect before responding","Help group unite"] },
-        { text: "I feel successful when I:", labels: ["Am appreciated","Reach clear goals","Follow principles","Am accepted"] },
-        { text: "I contribute most when I:", labels: ["Provide support","Make decisive progress","Offer structure","Create unity"] },
-        { text: "I feel most appreciated when I:", labels: ["Am thanked","Recognized for achievements","Trusted for insight","Valued as team"] },
-        { text: "I feel pressured when I:", labels: ["See others in distress","Can't take action","Feel disorganized","Feel unheard"] },
-        { text: "I am most motivated when I:", labels: ["Make a difference","Have clear targets","Understand the 'why'","Belong and contribute"] },
-        { text: "I define success as:", labels: ["Positive difference","Achieving goals","Being true to myself","Group alignment"] },
-        { text: "I believe the best teams:", labels: ["Are caring","Are results-driven","Are logical","Are inclusive"] }
+        { text: "When I'm part of a team, I bring:", labels: ["Empathy and emotional support","Drive and energy to move forward","Objectivity and thoughtful analysis"] },
+        { text: "I gain personal fulfillment by:", labels: ["Helping people feel valued","Achieving something impressive","Solving complex problems independently"] },
+        { text: "I prefer tasks that involve:", labels: ["Collaboration and group harmony","Fast-paced action and visible results","Deep thinking and attention to detail"] },
+        { text: "I naturally gravitate toward roles that:", labels: ["Support and uplift others","Involve leadership and goal-setting","Allow me autonomy and critical thinking"] },
+        { text: "When solving problems, I first:", labels: ["Consider how it impacts others emotionally","Decide what action will produce results","Analyze all the facts and variables"] },
+        { text: "A satisfying day for me is one where:", labels: ["Made someone’s life easier","Reached or exceeded a goal","Had time to think deeply and get things right"] },
+        { text: "In decision-making, I lean toward:", labels: ["What supports relationships","What gets things done fastest","What makes the most logical sense"] },
+        { text: "I work best in environments where:", labels: ["People are kind and cooperative","There’s a strong push for results","Independence and order are valued"] },
+        { text: "I get frustrated when:", labels: ["Others are insensitive or dismissive","Progress is slow or indecisive","Things are disorganized or illogical"] },
+        { text: "When mentoring someone, I focus on:", labels: ["Their well-being and emotional growth","Helping them win and perform better","Teaching them how to think clearly and fairly"] },
+        { text: "I respect people who:", labels: ["Are generous and compassionate","Take initiative and lead","Think before they act and stay consistent"] },
+        { text: "When I plan something, I:", labels: ["Consider how people will feel about it","Focus on what needs to be accomplished","Build a system or structure first"] },
+        { text: "I value communication that is:", labels: ["Warm and encouraging","Direct and results-driven","Precise and well-thought-out"] },
+        { text: "I’m most engaged when:", labels: ["People count on me for support","I’m in charge of outcomes","I’m given time to plan and research"] },
+        { text: "The strongest part of my personality is:", labels: ["My caring and loyalty to others","My determination and leadership","My logic and consistency"] }
       ];
-      const conflictQs = JSON.parse(JSON.stringify(normalQs));
-      const letterMap = { A: 'Blue', B: 'Red', C: 'Green', D: 'Hub' };
+      const conflictQs = [
+        { text: "When under pressure, I tend to:", labels: ["Try to calm things down","Push harder to control the situation","Step back and analyze before acting"] },
+        { text: "When someone criticizes me, I:", labels: ["Try to understand their feelings","Defend myself or challenge them","Withdraw to process it logically"] },
+        { text: "If a team breaks into conflict, I:", labels: ["Try to restore trust and understanding","Take charge to end the conflict fast","Distance myself until the emotions settle"] },
+        { text: "When I feel wronged, I usually:", labels: ["Look for reconciliation","Confront the person directly","Keep it inside and reflect later"] },
+        { text: "In heated moments, I prefer:", labels: ["Talking things out gently","Standing my ground","Avoiding the argument until things cool down"] },
+        { text: "I lose patience when others:", labels: ["Are cold or dismissive","Avoid taking responsibility","Get too emotional or irrational"] },
+        { text: "In a disagreement, my instinct is to:", labels: ["Preserve the relationship","Win or prove a point","Focus on being fair and objective"] },
+        { text: "If someone raises their voice at me, I:", labels: ["Try to calm them and keep peace","Match their intensity or push back","Stay quiet and analyze their motive"] },
+        { text: "I recover from conflict by:", labels: ["Talking it through and reconnecting","Moving on once it’s resolved","Reflecting alone before re-engaging"] },
+        { text: "My biggest fear in conflict is:", labels: ["Damaging the relationship","Losing control or being weak","Being misunderstood or misrepresented"] },
+        { text: "I believe conflict is best resolved by:", labels: ["Understanding each other’s feelings","Making a clear decision or taking action","Having space and using reason"] },
+        { text: "When I’m very upset, I tend to:", labels: ["Seek emotional support or reassurance","Take charge and demand a solution","Shut down or mentally retreat"] },
+        { text: "In a crisis, I’m most likely to:", labels: ["Check how others are doing emotionally","Take command and make decisions","Step aside and quietly think things through"] },
+        { text: "I feel most vulnerable when:", labels: ["People are cold or distant","I seem powerless or unprepared","I'm forced into emotionally charged situations"] },
+        { text: "When others are in conflict around me, I:", labels: ["Try to mediate and soothe tensions","Step in to resolve or redirect the focus","Prefer to observe quietly and avoid getting involved"] }
+      ];
+      const letterMap = { A: 'Blue', B: 'Red', C: 'Green' };
+      const interpretations = {
+        Blue: 'Altruistic-Nurturing: Its main concern is the protection and growth of others.',
+        Red: 'Assertive-Directing: Its main concern is for task accomplishment and achieving desired results.',
+        Green: 'Analytic-Autonomizing: Its main concern is for making sure that things are properly thought out.'
+      };
       const blendNames = {
         'Blue-Red': 'Assertive-Nurturing',
         'Red-Green': 'Judicious-Competing',
         'Blue-Green': 'Cautious-Supporting'
-      };
-      const interpretations = {
-        Blue: 'Altruistic-Nurturing: Its main concern is the protection and growth of others.',
-        Red: 'Assertive-Directing: Its main concern is for task accomplishment and achieving desired results.',
-        Green: 'Analytic-Autonomizing: Its main concern is for making sure that things are properly thought out.',
-        Hub: 'Flexible-Cohering: Its main concern is for flexibility and welfare of the team/group – they try to build team consensus.'
       };
       const blendInterpretations = {
         'Assertive-Nurturing': 'Its main concern is for protection, growth, and welfare of others through task accomplishment.',
@@ -83,26 +101,39 @@
       ['normal','conflict'].forEach((sec, si) => {
         const sectionQs = si === 0 ? normalQs : conflictQs;
         if (si === 1) {
-          const hr = document.createElement('hr'); hr.className = 'section-break'; form.appendChild(hr);
+          const hr = document.createElement('hr');
+          hr.className = 'section-break';
+          form.appendChild(hr);
         }
-        const title = document.createElement('div'); title.className = 'section-title';
-        title.textContent = si === 0 ? 'Part 1: Normal Conditions' : 'Part 2: Conflict Conditions';
+        const title = document.createElement('div');
+        title.className = 'section-title';
+        title.textContent = si === 0
+          ? 'Part 1: Normal Conditions'
+          : 'Part 2: Conflict Conditions';
         form.appendChild(title);
+
         sectionQs.forEach((q, i) => {
-          const idx = si * 12 + i;
-          const div = document.createElement('div'); div.className = 'question';
+          const idx = si * 15 + i;
+          const div = document.createElement('div');
+          div.className = 'question';
           div.innerHTML = `<strong>Q${idx+1}.</strong> ${q.text}`;
-          const answersDiv = document.createElement('div'); answersDiv.className = 'answers';
-          ['A','B','C','D'].forEach((lt, j) => {
-            const opt = document.createElement('div'); opt.className = 'option';
+          const answersDiv = document.createElement('div');
+          answersDiv.className = 'answers';
+
+          ['A','B','C'].forEach((lt, j) => {
+            const opt = document.createElement('div');
+            opt.className = 'option';
             opt.innerHTML = `
               <label>${lt}. ${q.labels[j]}</label>
               <input type="number" data-q="${idx}" data-letter="${lt}" min="0" max="10" placeholder="0-10">
             `;
             answersDiv.appendChild(opt);
           });
+
           div.appendChild(answersDiv);
-          const err = document.createElement('div'); err.className = 'error'; div.appendChild(err);
+          const err = document.createElement('div');
+          err.className = 'error';
+          div.appendChild(err);
           form.appendChild(div);
         });
       });
@@ -115,68 +146,125 @@
 
       inputs.forEach(inp => inp.addEventListener('input', () => {
         let allValid = true;
-        for (let q = 0; q < 24; q++) {
+        for (let q = 0; q < 30; q++) {
           const group = inputs.filter(i => +i.dataset.q === q);
-          const vals = group.map(i => i.value.trim());
+          const vals  = group.map(i => i.value.trim());
           const allFilled = vals.every(v => v !== '');
-          const sum = group.reduce((a, i) => a + (+i.value || 0), 0);
+          const sum = group.reduce((a,i) => a + (+i.value || 0), 0);
           const errEl = group[0].closest('.question').querySelector('.error');
-          if (!allFilled) { errEl.style.display = 'none'; allValid = false; }
-          else if (sum !== 10) { errEl.textContent = sum > 10 ? `Exceeds by ${sum-10}` : `Short by ${10-sum}`; errEl.style.display = 'block'; allValid = false; }
-          else { errEl.style.display = 'none'; }
+
+          if (!allFilled) {
+            errEl.style.display = 'none';
+            allValid = false;
+          } else if (sum !== 10) {
+            errEl.textContent = sum > 10
+              ? `Exceeds by ${sum - 10}`
+              : `Short by ${10 - sum}`;
+            errEl.style.display = 'block';
+            allValid = false;
+          } else {
+            errEl.style.display = 'none';
+          }
         }
         submitBtn.disabled = !allValid;
       }));
 
       function draw(canvas, scores) {
-        const ctx = canvas.getContext('2d'), w = canvas.width, h = canvas.height;
-        const P1 = { x: 20, y: 20 }, P2 = { x: w-20, y: 20 }, P3 = { x: w/2, y: h-20 };
-        const M12 = { x: (P1.x+P2.x)/2, y: (P1.y+P2.y)/2 };
-        const M13 = { x: (P1.x+P3.x)/2, y: (P1.y+P3.y)/2 };
-        const M23 = { x: (P2.x+P3.x)/2, y: (P2.y+P3.y)/2 };
-        const C = { x: (P1.x+P2.x+P3.x)/3, y: (P1.y+P2.y+P3.y)/3 };
-        ctx.clearRect(0, 0, w, h);
-        ctx.fillStyle = '#2196F3'; ctx.beginPath(); ctx.moveTo(P1.x, P1.y); ctx.lineTo(M12.x, M12.y); ctx.lineTo(M13.x, M13.y); ctx.closePath(); ctx.fill();
-        ctx.fillStyle = '#f44336'; ctx.beginPath(); ctx.moveTo(P2.x, P2.y); ctx.lineTo(M12.x, M12.y); ctx.lineTo(M23.x, M23.y); ctx.closePath(); ctx.fill();
-        ctx.fillStyle = '#4CAF50'; ctx.beginPath(); ctx.moveTo(P3.x, P3.y); ctx.lineTo(M13.x, M13.y); ctx.lineTo(M23.x, M23.y); ctx.closePath(); ctx.fill();
-        ctx.strokeStyle = '#333'; ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(P1.x, P1.y); ctx.lineTo(P2.x, P2.y); ctx.lineTo(P3.x, P3.y); ctx.closePath(); ctx.stroke();
-        const total = scores.Red + scores.Blue + scores.Green + scores.Hub;
-        const px = (scores.Red*P2.x + scores.Blue*P1.x + scores.Green*P3.x + scores.Hub*C.x) / total;
-        const py = (scores.Red*P2.y + scores.Blue*P1.y + scores.Green*P3.y + scores.Hub*C.y) / total;
-        ctx.fillStyle = '#000'; ctx.beginPath(); ctx.arc(px, py, 5, 0, 2*Math.PI); ctx.fill();
+        const ctx = canvas.getContext('2d'),
+              w   = canvas.width,
+              h   = canvas.height;
+        const P1 = { x: 20, y:20 },
+              P2 = { x: w-20, y:20 },
+              P3 = { x: w/2, y: h-20 },
+              M12 = { x:(P1.x+P2.x)/2, y:(P1.y+P2.y)/2 },
+              M13 = { x:(P1.x+P3.x)/2, y:(P1.y+P3.y)/2 },
+              M23 = { x:(P2.x+P3.x)/2, y:(P2.y+P3.y)/2 },
+              C   = { x:(P1.x+P2.x+P3.x)/3, y:(P1.y+P2.y+P3.y)/3 };
+
+        ctx.clearRect(0,0,w,h);
+        // Blue region
+        ctx.fillStyle = '#2196F3';
+        ctx.beginPath();
+        ctx.moveTo(P1.x,P1.y);
+        ctx.lineTo(M12.x,M12.y);
+        ctx.lineTo(M13.x,M13.y);
+        ctx.closePath();
+        ctx.fill();
+        // Red region
+        ctx.fillStyle = '#f44336';
+        ctx.beginPath();
+        ctx.moveTo(P2.x,P2.y);
+        ctx.lineTo(M12.x,M12.y);
+        ctx.lineTo(M23.x,M23.y);
+        ctx.closePath();
+        ctx.fill();
+        // Green region
+        ctx.fillStyle = '#4CAF50';
+        ctx.beginPath();
+        ctx.moveTo(P3.x,P3.y);
+        ctx.lineTo(M13.x,M13.y);
+        ctx.lineTo(M23.x,M23.y);
+        ctx.closePath();
+        ctx.fill();
+        // outline
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(P1.x,P1.y);
+        ctx.lineTo(P2.x,P2.y);
+        ctx.lineTo(P3.x,P3.y);
+        ctx.closePath();
+        ctx.stroke();
+
+        // plot the weighted average point
+        const total = scores.Red + scores.Blue + scores.Green;
+        const px = (scores.Red*P2.x + scores.Blue*P1.x + scores.Green*P3.x) / total;
+        const py = (scores.Red*P2.y + scores.Blue*P1.y + scores.Green*P3.y) / total;
+        ctx.fillStyle = '#000';
+        ctx.beginPath();
+        ctx.arc(px,py,5,0,2*Math.PI);
+        ctx.fill();
       }
 
       submitBtn.addEventListener('click', () => {
-        const scores1 = { Red:0, Blue:0, Green:0, Hub:0 };
-        const scores2 = { Red:0, Blue:0, Green:0, Hub:0 };
-        inputs.forEach(i => {
-          const q = +i.dataset.q;
-          const cat = letterMap[i.dataset.letter];
-          const v = +i.value;
-          if (q < 12) scores1[cat] += v; else scores2[cat] += v;
-        });
-        document.getElementById('totals1').textContent = `Red:${scores1.Red}, Blue:${scores1.Blue}, Green:${scores1.Green}, Hub:${scores1.Hub}`;
-        draw(document.getElementById('canvas1'), scores1);
-        document.getElementById('results1').style.display = 'block';
-        document.getElementById('totals2').textContent = `Red:${scores2.Red}, Blue:${scores2.Blue}, Green:${scores2.Green}, Hub:${scores2.Hub}`;
-        draw(document.getElementById('canvas2'), scores2);
-        document.getElementById('results2').style.display = 'block';
+        const scores1 = { Red:0, Blue:0, Green:0 };
+        const scores2 = { Red:0, Blue:0, Green:0 };
 
-        const dynEl = document.getElementById('dynamicResults');
-        dynEl.innerHTML = '<h2>Your Results!</h2>';
+        inputs.forEach(i => {
+          const q   = +i.dataset.q;
+          const cat = letterMap[i.dataset.letter];
+          const v   = +i.value;
+          if (q < 15) scores1[cat] += v;
+          else        scores2[cat] += v;
+        });
+
+        // show totals & triangles
+        document.getElementById('totals1').textContent =
+          `Red:${scores1.Red}, Blue:${scores1.Blue}, Green:${scores1.Green}`;
+        draw(document.getElementById('canvas1'), scores1);
+        result1.style.display = 'block';
+
+        document.getElementById('totals2').textContent =
+          `Red:${scores2.Red}, Blue:${scores2.Blue}, Green:${scores2.Green}`;
+        draw(document.getElementById('canvas2'), scores2);
+        result2.style.display = 'block';
+
+        // dynamic interpretations
+        dyn.innerHTML = '<h2>Your Results!</h2>';
         [scores1, scores2].forEach((scores, idx) => {
           const sorted = Object.entries(scores)
-            .map(([k,v]) => ({k,v}))
+            .map(([k,v]) => ({ k,v }))
             .sort((a,b) => b.v - a.v);
+
           if (sorted[0].v > sorted[1].v) {
             const style = sorted[0].k;
-            dynEl.innerHTML += `<p><strong>Part ${idx+1}:</strong> Primary style <strong>${interpretations[style].split(':')[0]}</strong>.</p>`;
-            dynEl.innerHTML += `<p>${interpretations[style]}</p>`;
+            dyn.innerHTML += `<p><strong>Part ${idx+1}:</strong> Primary style <strong>${interpretations[style].split(':')[0]}</strong>.</p>`;
+            dyn.innerHTML += `<p>${interpretations[style]}</p>`;
           } else {
             const pairKey = [sorted[0].k, sorted[1].k].sort().join('-');
-            const name = blendNames[pairKey];
-            dynEl.innerHTML += `<p><strong>Part ${idx+1}:</strong> Blended style <strong>${name}</strong>.</p>`;
-            dynEl.innerHTML += `<p>${blendInterpretations[name]}</p>`;
+            const name    = blendNames[pairKey];
+            dyn.innerHTML += `<p><strong>Part ${idx+1}:</strong> Blended style <strong>${name}</strong>.</p>`;
+            dyn.innerHTML += `<p>${blendInterpretations[name]}</p>`;
           }
         });
       });
