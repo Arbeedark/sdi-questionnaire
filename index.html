@@ -2,138 +2,148 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SDI Questionnaire – Full Test</title>
+  <title>SDI Questionnaire – Split Quiz with Comparison</title>
   <style>
-  body {
-    background: #005335;
-    color: #005335;
-    font-family: Arial, sans-serif;
-    padding: 20px;
-    max-width: 900px;
-    margin: auto;
-  }
-  h1, h2 {
-    color: #A4E2E4;
-    text-align: center;
-    font-weight: bold;
-  }
-  .section-title {
-    color: #A4E2E4;
-    font-size: 1.2em;
-    margin: 20px 0 10px;
-    font-weight: bold;
-  }
-  .question {
-    background: #EEF8EF;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 20px;
-    border-radius: 8px;
-  }
-  .answers {
-    margin-top: 10px;
-  }
-  .option {
-    display: flex;
-    align-items: center;
-    margin: 5px 0;
-  }
-  .option label {
-    flex: 1;
-  }
-  .option input {
-    width: 60px;
-    margin-left: 8px;
-    padding: 4px;
-    border: 1px solid #ccd0d5;
-    border-radius: 4px;
-  }
-  .option input:focus {
-    border-color: #1877F2;
-    box-shadow: 0 0 3px rgba(24,119,242,0.5);
-    outline: none;
-  }
-  .error {
-    color: red;
-    display: none;
-    text-align: right;
-    margin-top: 5px;
-    font-size: 0.9em;
-  }
-  hr.section-break {
-    border: none;
-    border-top: 2px solid #EEF8EF;
-    margin: 40px 0;
-  }
-  button#submitBtn {
-    background: #EEF8EF;
-    color: #000;
-    border: 2px solid #000;
-    padding: 10px 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 15px;
-  }
-  button:disabled {
-    background: #a3bffa;
-    cursor: not-allowed;
-  }
-  .results {
-    display: none;
-    border-top: 2px solid #1877F2;
-    padding-top: 20px;
-    margin-top: 40px;
-  }
-  .triangle-container {
-    text-align: center;
-    margin-top: 20px;
-  }
-  canvas {
-    background: #fff;
-    border: 1px solid #ccc;
-  }
-  #dynamicResults {
-    background: #fff;
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 8px;
-    text-align: left;
-  }
-  #dynamicResults h2 {
-    color: #1877F2;
-    font-size: 1.2em;
-    margin-bottom: 10px;
-    font-weight: bold;
-  }
-  #dynamicResults p {
-    margin: 8px 0;
-  }
-</style>
-
+    body {
+      background: #005335;
+      color: #005335;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+    h1, h2 {
+      color: #A4E2E4;
+      text-align: center;
+      font-weight: bold;
+    }
+    .section-title {
+      color: #A4E2E4;
+      font-size: 1.2em;
+      margin: 20px 0 10px;
+      font-weight: bold;
+    }
+    .question {
+      background: #EEF8EF;
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    .answers { margin-top: 10px; }
+    .option {
+      display: flex;
+      align-items: center;
+      margin: 5px 0;
+    }
+    .option label { flex: 1; }
+    .option input {
+      width: 60px;
+      margin-left: 8px;
+      padding: 4px;
+      border: 1px solid #ccd0d5;
+      border-radius: 4px;
+    }
+    .option input:focus {
+      border-color: #1877F2;
+      box-shadow: 0 0 3px rgba(24,119,242,0.5);
+      outline: none;
+    }
+    .error {
+      color: red;
+      display: none;
+      text-align: right;
+      margin-top: 5px;
+      font-size: 0.9em;
+    }
+    button {
+      background: #EEF8EF;
+      color: #000;
+      border: 2px solid #000;
+      padding: 10px 16px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      display: block;
+      margin: 15px auto 0;
+    }
+    button:disabled {
+      background: #a3bffa;
+      cursor: not-allowed;
+    }
+    .results {
+      display: none;
+      border-top: 2px solid #1877F2;
+      padding-top: 20px;
+      margin-top: 40px;
+    }
+    .triangle-container {
+      text-align: center;
+      margin-top: 20px;
+    }
+    canvas {
+      /* use the official SDI gradient triangle as the canvas background */
+      background: url('https://www.corestrengths.com/wp-content/uploads/2020/01/SDI_2017.jpg') no-repeat center center;
+      background-size: contain;
+      border: 1px solid #ccc;
+    }
+    #compareLegend span {
+      margin-right: 10px;
+      font-size: 1.1em;
+    }
+    #compareLegend .dot1 { color: #000; }
+    #compareLegend .dot2 { color: #F00; }
+  </style>
 </head>
 <body>
   <h1>SDI Questionnaire – Full Test</h1>
-  <form id="quizForm"></form>
-  <button type="button" id="submitBtn" disabled>Show Results</button>
 
-  <div id="resultsSection">
-    <div id="results1" class="results">
-      <h2>Part 1: Normal Conditions</h2>
-      <p id="totals1"></p>
-      <div class="triangle-container"><canvas id="canvas1" width="300" height="260"></canvas></div>
+  <!-- Part 1 -->
+  <div id="part1">
+    <div class="section-title">Part 1: Normal Conditions</div>
+    <form id="quizForm1"></form>
+    <button type="button" id="submitPart1Btn" disabled>Show Part 1 Results</button>
+  </div>
+
+  <div id="results1" class="results">
+    <h2>Part 1: Results</h2>
+    <p id="totals1"></p>
+    <div class="triangle-container">
+      <canvas id="canvas1" width="300" height="260"></canvas>
     </div>
-    <div id="results2" class="results">
-      <h2>Part 2: Conflict Conditions</h2>
-      <p id="totals2"></p>
-      <div class="triangle-container"><canvas id="canvas2" width="300" height="260"></canvas></div>
+    <button id="toPart2Btn">After discussing your results, click here to move to the second half of the quiz</button>
+  </div>
+
+  <!-- Part 2 -->
+  <div id="part2" style="display:none;">
+    <div class="section-title">Part 2: Conflict Conditions</div>
+    <form id="quizForm2"></form>
+    <button type="button" id="submitPart2Btn" disabled>Show Part 2 Results</button>
+  </div>
+
+  <div id="results2" class="results">
+    <h2>Part 2: Results</h2>
+    <p id="totals2"></p>
+    <div class="triangle-container">
+      <canvas id="canvas2" width="300" height="260"></canvas>
     </div>
-    <div id="dynamicResults"></div>
+  </div>
+
+  <!-- Comparison -->
+  <div id="compareSection" class="results">
+    <h2>Comparison of Results</h2>
+    <div class="triangle-container">
+      <canvas id="canvasCompare" width="300" height="260"></canvas>
+    </div>
+    <p id="compareLegend">
+      <span class="dot1">● Part 1</span>
+      <span class="dot2">● Part 2</span>
+    </p>
   </div>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // 15 Normal-condition questions
       const normalQs = [
         { text: "When I'm part of a team, I bring:", labels: ["Empathy and emotional support","Drive and energy to move forward","Objectivity and thoughtful analysis"] },
         { text: "I gain personal fulfillment by:", labels: ["Helping people feel valued","Achieving something impressive","Solving complex problems independently"] },
@@ -151,6 +161,8 @@
         { text: "I’m most engaged when:", labels: ["People count on me for support","I’m in charge of outcomes","I’m given time to plan and research"] },
         { text: "The strongest part of my personality is:", labels: ["My caring and loyalty to others","My determination and leadership","My logic and consistency"] }
       ];
+
+      // 15 Conflict-condition questions
       const conflictQs = [
         { text: "When under pressure, I tend to:", labels: ["Try to calm things down","Push harder to control the situation","Step back and analyze before acting"] },
         { text: "When someone criticizes me, I:", labels: ["Try to understand their feelings","Defend myself or challenge them","Withdraw to process it logically"] },
@@ -168,47 +180,20 @@
         { text: "I feel most vulnerable when:", labels: ["People are cold or distant","I seem powerless or unprepared","I'm forced into emotionally charged situations"] },
         { text: "When others are in conflict around me, I:", labels: ["Try to mediate and soothe tensions","Step in to resolve or redirect the focus","Prefer to observe quietly and avoid getting involved"] }
       ];
+
       const letterMap = { A: 'Blue', B: 'Red', C: 'Green' };
-      const interpretations = {
-        Blue: 'Altruistic-Nurturing: Its main concern is the protection and growth of others.',
-        Red: 'Assertive-Directing: Its main concern is for task accomplishment and achieving desired results.',
-        Green: 'Analytic-Autonomizing: Its main concern is for making sure that things are properly thought out.'
-      };
-      const blendNames = {
-        'Blue-Red': 'Assertive-Nurturing',
-        'Red-Green': 'Judicious-Competing',
-        'Blue-Green': 'Cautious-Supporting'
-      };
-      const blendInterpretations = {
-        'Assertive-Nurturing': 'Its main concern is for protection, growth, and welfare of others through task accomplishment.',
-        'Judicious-Competing': 'Its main concern is for justice, leadership, order and fairness in competition.',
-        'Cautious-Supporting': 'Its main concern is for affirming and developing self-sufficiency in self and others.'
-      };
-      const form = document.getElementById('quizForm');
 
-      ['normal','conflict'].forEach((sec, si) => {
-        const sectionQs = si === 0 ? normalQs : conflictQs;
-        if (si === 1) {
-          const hr = document.createElement('hr');
-          hr.className = 'section-break';
-          form.appendChild(hr);
-        }
-        const title = document.createElement('div');
-        title.className = 'section-title';
-        title.textContent = si === 0
-          ? 'Part 1: Normal Conditions'
-          : 'Part 2: Conflict Conditions';
-        form.appendChild(title);
-
-        sectionQs.forEach((q, i) => {
-          const idx = si * 15 + i;
+      // Build & validate forms
+      function generateQuestions(questions, formId, offset) {
+        const form = document.getElementById(formId);
+        questions.forEach((q, i) => {
+          const idx = offset + i;
           const div = document.createElement('div');
           div.className = 'question';
           div.innerHTML = `<strong>Q${idx+1}.</strong> ${q.text}`;
           const answersDiv = document.createElement('div');
           answersDiv.className = 'answers';
-
-          ['A','B','C'].forEach((lt, j) => {
+          ['A','B','C'].forEach((lt,j) => {
             const opt = document.createElement('div');
             opt.className = 'option';
             opt.innerHTML = `
@@ -217,140 +202,95 @@
             `;
             answersDiv.appendChild(opt);
           });
-
           div.appendChild(answersDiv);
-          const err = document.createElement('div');
-          err.className = 'error';
+          const err = document.createElement('div'); err.className = 'error';
           div.appendChild(err);
           form.appendChild(div);
         });
-      });
+      }
+      function attachValidation(formId, btnId) {
+        const inputs = Array.from(document.getElementById(formId).querySelectorAll('input'));
+        const btn = document.getElementById(btnId);
+        inputs.forEach(i => i.addEventListener('input', () => {
+          let ok = true;
+          [...new Set(inputs.map(x => x.dataset.q))].forEach(q => {
+            const grp = inputs.filter(x => x.dataset.q === q),
+                  vals = grp.map(x => x.value.trim()),
+                  err = grp[0].closest('.question').querySelector('.error');
+            if (vals.some(v => v === '')) {
+              err.style.display = 'none'; ok = false;
+            } else {
+              const sum = grp.reduce((a,x) => a + (+x.value||0), 0);
+              if (sum !== 10) {
+                err.textContent = sum>10?`Exceeds by ${sum-10}`:`Short by ${10-sum}`;
+                err.style.display = 'block'; ok = false;
+              } else {
+                err.style.display = 'none';
+              }
+            }
+          });
+          btn.disabled = !ok;
+        }));
+      }
 
-      const inputs = Array.from(form.querySelectorAll('input'));
-      const submitBtn = document.getElementById('submitBtn');
-      const result1 = document.getElementById('results1');
-      const result2 = document.getElementById('results2');
-      const dyn = document.getElementById('dynamicResults');
-
-      inputs.forEach(inp => inp.addEventListener('input', () => {
-        let allValid = true;
-        for (let q = 0; q < 30; q++) {
-          const group = inputs.filter(i => +i.dataset.q === q);
-          const vals  = group.map(i => i.value.trim());
-          const allFilled = vals.every(v => v !== '');
-          const sum = group.reduce((a,i) => a + (+i.value || 0), 0);
-          const errEl = group[0].closest('.question').querySelector('.error');
-
-          if (!allFilled) {
-            errEl.style.display = 'none';
-            allValid = false;
-          } else if (sum !== 10) {
-            errEl.textContent = sum > 10
-              ? `Exceeds by ${sum - 10}`
-              : `Short by ${10 - sum}`;
-            errEl.style.display = 'block';
-            allValid = false;
-          } else {
-            errEl.style.display = 'none';
-          }
-        }
-        submitBtn.disabled = !allValid;
-      }));
-
-      function draw(canvas, scores) {
-        const ctx = canvas.getContext('2d'),
-              w   = canvas.width,
-              h   = canvas.height;
-        const P1 = { x:20, y:20 },
-              P2 = { x:w-20, y:20 },
-              P3 = { x:w/2, y:h-20 },
-              M12 = { x:(P1.x+P2.x)/2, y:(P1.y+P2.y)/2 },
-              M13 = { x:(P1.x+P3.x)/2, y:(P1.y+P3.y)/2 },
-              M23 = { x:(P2.x+P3.x)/2, y:(P2.y+P3.y)/2 },
-              C   = { x:(P1.x+P2.x+P3.x)/3, y:(P1.y+P2.y+P3.y)/3 };
-
-        ctx.clearRect(0,0,w,h);
-        ctx.fillStyle = '#2196F3';
-        ctx.beginPath();
-        ctx.moveTo(P1.x,P1.y);
-        ctx.lineTo(M12.x,M12.y);
-        ctx.lineTo(M13.x,M13.y);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = '#f44336';
-        ctx.beginPath();
-        ctx.moveTo(P2.x,P2.y);
-        ctx.lineTo(M12.x,M12.y);
-        ctx.lineTo(M23.x,M23.y);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.fillStyle = '#4CAF50';
-        ctx.beginPath();
-        ctx.moveTo(P3.x,P3.y);
-        ctx.lineTo(M13.x,M13.y);
-        ctx.lineTo(M23.x,M23.y);
-        ctx.closePath();
-        ctx.fill();
-
-        ctx.strokeStyle = '#333';
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(P1.x,P1.y);
-        ctx.lineTo(P2.x,P2.y);
-        ctx.lineTo(P3.x,P3.y);
-        ctx.closePath();
-        ctx.stroke();
-
-        const total = scores.Red + scores.Blue + scores.Green;
-        const px = (scores.Red*P2.x + scores.Blue*P1.x + scores.Green*P3.x) / total;
-        const py = (scores.Red*P2.y + scores.Blue*P1.y + scores.Green*P3.y) / total;
-        ctx.fillStyle = '#000';
+      // drawBackground now only clears so CSS background shows
+      function drawBackground(ctx, w, h) {
+        ctx.clearRect(0, 0, w, h);
+      }
+      function drawPoint(ctx, w, h, s, color) {
+        const P1 = { x:20, y:20 }, P2 = { x:w-20, y:20 }, P3 = { x:w/2, y:h-20 };
+        const total = s.Red + s.Blue + s.Green;
+        const px = (s.Red*P2.x + s.Blue*P1.x + s.Green*P3.x)/total;
+        const py = (s.Red*P2.y + s.Blue*P1.y + s.Green*P3.y)/total;
+        ctx.fillStyle = color;
         ctx.beginPath();
         ctx.arc(px,py,5,0,2*Math.PI);
         ctx.fill();
       }
 
-      submitBtn.addEventListener('click', () => {
-        const scores1 = { Red:0, Blue:0, Green:0 };
-        const scores2 = { Red:0, Blue:0, Green:0 };
+      generateQuestions(normalQs, 'quizForm1', 0);
+      generateQuestions(conflictQs, 'quizForm2', 15);
+      attachValidation('quizForm1', 'submitPart1Btn');
+      attachValidation('quizForm2', 'submitPart2Btn');
 
-        inputs.forEach(i => {
-          const q   = +i.dataset.q;
-          const cat = letterMap[i.dataset.letter];
-          const v   = +i.value;
-          if (q < 15) scores1[cat] += v;
-          else        scores2[cat] += v;
+      document.getElementById('submitPart1Btn').addEventListener('click', () => {
+        const s = { Red:0, Blue:0, Green:0 };
+        document.querySelectorAll('#quizForm1 input').forEach(i => {
+          s[letterMap[i.dataset.letter]] += +i.value;
         });
-
         document.getElementById('totals1').textContent =
-          `Red:${scores1.Red}, Blue:${scores1.Blue}, Green:${scores1.Green}`;
-        draw(document.getElementById('canvas1'), scores1);
-        result1.style.display = 'block';
+          `Red:${s.Red}, Blue:${s.Blue}, Green:${s.Green}`;
+        const c = document.getElementById('canvas1'), ctx = c.getContext('2d');
+        drawBackground(ctx, c.width, c.height);
+        drawPoint(ctx, c.width, c.height, s, '#000');
+        document.getElementById('part1').style.display = 'none';
+        document.getElementById('results1').style.display = 'block';
+      });
 
-        document.getElementById('totals2').textContent =
-          `Red:${scores2.Red}, Blue:${scores2.Blue}, Green:${scores2.Green}`;
-        draw(document.getElementById('canvas2'), scores2);
-        result2.style.display = 'block';
+      document.getElementById('toPart2Btn').addEventListener('click', () => {
+        document.getElementById('results1').style.display = 'none';
+        document.getElementById('part2').style.display = 'block';
+      });
 
-        dyn.innerHTML = '<h2>Your Results!</h2>';
-        [scores1, scores2].forEach((scores, idx) => {
-          const sorted = Object.entries(scores)
-            .map(([k,v]) => ({ k,v }))
-            .sort((a,b) => b.v - a.v);
-
-          if (sorted[0].v > sorted[1].v) {
-            const style = sorted[0].k;
-            dyn.innerHTML += `<p><strong>Part ${idx+1}:</strong> Primary style <strong>${interpretations[style].split(':')[0]}</strong>.</p>`;
-            dyn.innerHTML += `<p>${interpretations[style]}</p>`;
-          } else {
-            const pairKey = [sorted[0].k, sorted[1].k].sort().join('-');
-            const name    = blendNames[pairKey];
-            dyn.innerHTML += `<p><strong>Part ${idx+1}:</strong> Blended style <strong>${name}</strong>.</p>`;
-            dyn.innerHTML += `<p>${blendInterpretations[name]}</p>`;
-          }
+      document.getElementById('submitPart2Btn').addEventListener('click', () => {
+        const s1 = { Red:0, Blue:0, Green:0 }, s2 = { Red:0, Blue:0, Green:0 };
+        document.querySelectorAll('#quizForm1 input').forEach(i => {
+          s1[letterMap[i.dataset.letter]] += +i.value;
         });
+        document.querySelectorAll('#quizForm2 input').forEach(i => {
+          s2[letterMap[i.dataset.letter]] += +i.value;
+        });
+        document.getElementById('totals2').textContent =
+          `Red:${s2.Red}, Blue:${s2.Blue}, Green:${s2.Green}`;
+        const c2 = document.getElementById('canvas2'), ctx2 = c2.getContext('2d');
+        drawBackground(ctx2, c2.width, c2.height);
+        drawPoint(ctx2, c2.width, c2.height, s2, '#000');
+        document.getElementById('results2').style.display = 'block';
+        const cc = document.getElementById('canvasCompare'), ccCtx = cc.getContext('2d');
+        drawBackground(ccCtx, cc.width, cc.height);
+        drawPoint(ccCtx, cc.width, cc.height, s1, '#000');
+        drawPoint(ccCtx, cc.width, cc.height, s2, '#F00');
+        document.getElementById('compareSection').style.display = 'block';
       });
     });
   </script>
